@@ -1,5 +1,5 @@
 import numpy as np
-
+from numpy import linalg as LA
 
 def prod_non_zero_diag(x):
     ans = np.prod(np.diagonal(x)[np.diagonal(x) > 0])
@@ -38,13 +38,6 @@ def run_length_encoding(x):
 def pairwise_distance(x, y):
     n = len(x)
     x = np.repeat(x, n, axis = 0)
-    x.reshape((n * 2, n))
-    #сделали таблицу n на n
     y = np.tile(y, (n, 1))
-    #по сути тоже самое, что и repeat
-    y.reshape((2 * n, n))
-    #сделали таблицу n на n
     x -= y
-    x = x ** 2
-    #Это понятно, что типа по x минус и по y минус
-    return np.vectorize(np.sqrt)(np.dot(x, np.array([1, 1])))
+    return LA.norm(x, ord = 2, axis = 1)
